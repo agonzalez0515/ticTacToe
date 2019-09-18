@@ -6,7 +6,6 @@ describe TicTacToe do
         @game = TicTacToe.new(input: input)
     end
 
-
     it "creates a board" do
         expect(@game.board).to eq(["","","","","","","","",""])
     end
@@ -24,7 +23,7 @@ describe TicTacToe do
     end
 
     it "places the token on the selected spot" do 
-        expect(@game.place_token).to eq("X")
+        expect(@game.place_token).to eq(true)
     end
 
     it "checks if the game is won when all spots are empty" do
@@ -109,3 +108,8 @@ describe Player do
     end
 end
 
+
+# TODO
+# Check if game is tied
+# Show final winning board
+# Refactor diagonals array

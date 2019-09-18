@@ -24,15 +24,6 @@ class TicTacToe
         puts "Starting new Tic Tac Toe game"
         until game_over?(@board) do
             play
-            switch_player
-        end
-    end
-
-    def switch_player
-        if @current_player == @player1
-            @current_player = @player2
-        else
-            @current_player = @player1
         end
     end
 
@@ -47,8 +38,11 @@ class TicTacToe
         input = player_input
         if @board[input] == ""
             @board[input] = @current_player.token
+            switch_player
+            true
         else
             puts "The spot is already taken. Please select another spot."
+            false
         end
     end
 
@@ -64,13 +58,24 @@ class TicTacToe
   
 
         winner = [rows, columns, diagonals].map {|section| check_winner(section)}
+        if winner.include?(true)
+            puts "Congrats, you win!"
+        end
         winner.include?(true)
     end
 
+    private
     def check_winner(win_groups)
         win_groups.map {|group| return true if group.uniq.length == 1 && (group[0] == "X" || group[0] == "O") }.include?(true)
     end
 
+    def switch_player
+        if @current_player == @player1
+            @current_player = @player2
+        else
+            @current_player = @player1
+        end
+    end
 end
 
 
@@ -84,5 +89,5 @@ end
 
 
 
-game = TicTacToe.new
-game.start_game
+# game = TicTacToe.new
+# game.start_game
