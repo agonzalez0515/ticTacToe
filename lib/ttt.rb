@@ -3,12 +3,12 @@ require "pp"
 class TicTacToe
     attr_accessor :board
 
-    def initialize(input: $stdin)
+    def initialize
         @board = Array.new(9, "")
         @player1 = Player.new("X")
         @player2 = Player.new("O")
+        @player_console = PlayerConsole.new
         @current_player = @player1
-        @input = input
     end
 
     def display_board
@@ -30,52 +30,62 @@ class TicTacToe
     def play
         display_board
         puts "Please enter a number 1-9"
-        place_token
+        turn
     end
 
     
-    def place_token
-        input = player_input
-        if @board[input] == ""
-            @board[input] = @current_player.token
+    def turn
+        player_input = get_player_input
+        if  valid_input?(player_input)
+            place_token(player_input)
             switch_player
-            true
-        else
-            puts "The spot is already taken. Please select another spot."
-            false
+        else 
+            @player_console.invalid_input
+            # turn
         end
     end
 
-    def player_input
-        position_chosen = @input.gets.chomp.to_i
-        position_chosen = position_chosen - 1
-    end
 
-    def game_over?(board)
+    def get_player_input
+        position_chosen = @player_console.player_input - 1
+    end
+    
+
+    def game_over?(board) #refactor - should return true if there is a tie or a winner
         rows = board.each_slice(3).to_a
         columns = rows.transpose
         diagonals = [[rows[0][0],rows[1][1],rows[2][2]],[rows.reverse[0][0],rows.reverse[1][1],rows.reverse[2][2]]]
   
+        #move to new method
+        winner = [rows, columns, diagonals].map {|section| check_winner(section)}.include?(true)
 
-        winner = [rows, columns, diagonals].map {|section| check_winner(section)}
-        if winner.include?(true)
+        if winner
+            display_board
             puts "Congrats, you win!"
         end
-        winner.include?(true)
+        winner
+
+        # winner?(board) || tie?(board)
     end
 
     private
+    
+    def valid_input?(input)
+        return true if [0,1,2,3,4,5,6,7,8].include?(input) and @board[input] == ""
+    end
+        
+    def place_token(input)
+        @board[input] = @current_player.token
+    end
+
+    def switch_player
+        @current_player == @player1 ? @current_player = @player2 : @current_player = @player1        
+    end
+
     def check_winner(win_groups)
         win_groups.map {|group| return true if group.uniq.length == 1 && (group[0] == "X" || group[0] == "O") }.include?(true)
     end
 
-    def switch_player
-        if @current_player == @player1
-            @current_player = @player2
-        else
-            @current_player = @player1
-        end
-    end
 end
 
 
@@ -84,6 +94,21 @@ class Player
 
     def initialize(token)
         @token = token
+    end
+end
+
+class PlayerConsole
+    def initialize(input: $stdin, output: $stdout)
+        @input = input
+        @output = output
+    end
+
+    def invalid_input
+        @output.puts "The spot is already taken. Please select another spot."
+    end
+
+    def player_input
+        @input.gets.chomp.to_i
     end
 end
 
