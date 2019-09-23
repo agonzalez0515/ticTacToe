@@ -2,12 +2,13 @@ require "pp"
 
 class TicTacToe
     attr_accessor :board
+    attr_reader :console
 
-    def initialize
+    def initialize (console:)
         @board = Array.new(9, "")
         @player1 = Player.new("X")
         @player2 = Player.new("O")
-        @player_console = PlayerConsole.new
+        @player_console = console
         @current_player = @player1
     end
 
