@@ -2,11 +2,13 @@ require "pp"
 
 require_relative 'player_console'
 require_relative 'player'
+require_relative 'win'
 
 class TicTacToe
-    attr_reader :board, :console, :win
+    attr_reader :board
+    TO_INDEX = 1
 
-    def initialize (console: console, win: win)
+    def initialize (console:, win:)
         @board = Array.new(9, "")
         @player1 = Player.new("X")
         @player2 = Player.new("O")
@@ -25,10 +27,10 @@ class TicTacToe
     def play
         @player_console.display_board(@board)
         @player_console.instructions
-        turn
+        player_turn
     end
 
-    def turn
+    def player_turn
         player_input = get_player_input
         if  valid_input?(player_input)
             place_token(player_input)
@@ -39,13 +41,13 @@ class TicTacToe
     end
 
     def get_player_input
-        position_chosen = @player_console.player_input - 1
+        @player_console.player_input - TO_INDEX
     end
 
 
     private
     def valid_input?(input)
-        return true if [0,1,2,3,4,5,6,7,8].include?(input) and @board[input] == ""
+        return @board[input] == "" && [0,1,2,3,4,5,6,7,8].include?(input)
     end
         
     def place_token(input)
@@ -57,48 +59,7 @@ class TicTacToe
     end
 end
 
-class Win
-    def initialize(console: console)
-        @player_console = console
-    end
 
-    def game_over?(board)
-        if winner?(board) 
-            return true
-        elsif tie?(board)
-            return true
-        else
-            false
-        end
-    end
-
-    private
-    def winner?(board)
-        rows = board.each_slice(3).to_a
-        columns = rows.transpose
-        diagonals = [[rows[0][0],rows[1][1],rows[2][2]],[rows.reverse[0][0],rows.reverse[1][1],rows.reverse[2][2]]]
-        winner = [rows, columns, diagonals].map {|section| check_spots(section)}.include?(true)
-        if winner
-            @player_console.display_board(board)
-            @player_console.winner_message
-        end
-        winner
-    end
-
-    def check_spots(section)
-        section.map {|group| return true if group.uniq.length == 1 && (group[0] == "X" or group[0] == "O") }.include?(true)
-    end
-
-    def tie?(board)
-        tie = !board.include?("")
-        if tie
-            @player_console.display_board(board)
-            @player_console.tie_message
-        end
-        tie
-    end
-
-end
 
 
 
