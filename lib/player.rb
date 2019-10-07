@@ -1,4 +1,5 @@
-require_relative 'minimax'
+
+require 'minimax_rb'
 
 class Player
     attr_reader :token
@@ -24,7 +25,6 @@ end
 
 
 class ComputerPlayer < Player
-    include Minimax
     
     def choose_move
         call_minimax
@@ -40,6 +40,6 @@ class ComputerPlayer < Player
             opponent: opponent,
             empty_marker: ""
         }
-        Minimax.best_move(args)
+        MinimaxRB.best_move(args)
     end
 end
