@@ -6,12 +6,10 @@ require_relative 'win'
 require_relative 'board'
 
 class TicTacToe
-    attr_reader :board
-    ONE_PLAYER = 1
     OPPONENT = 1
 
     def initialize (args)
-        @board = Board.new()
+        @board = Board.new() 
         @players = args[:players]
         @player_console = args[:console]
         @current_player = @players[0]
@@ -60,9 +58,3 @@ class TicTacToe
     end
 end
 
-
-
-# console = PlayerConsole.new
-# win = Win.new(console: console)
-# game = TicTacToe.new(win: win, console: console)
-# game.start_game
