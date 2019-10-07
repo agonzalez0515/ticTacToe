@@ -6,7 +6,6 @@ require_relative 'win'
 require_relative 'board'
 
 class TicTacToe
-    OPPONENT = 1
 
     def initialize (args)
         @board = Board.new() 
@@ -32,7 +31,7 @@ class TicTacToe
     end
 
     def player_turn
-        player_input = get_player_input(@board.board, @players[OPPONENT])
+        player_input = get_player_input
 
         if  valid_input?(player_input)
             @board.place_token(player_input, @current_player.token)
@@ -44,8 +43,8 @@ class TicTacToe
 
     
     private
-    def get_player_input(board, opponent)
-        @current_player.choose_move(board, opponent)
+    def get_player_input
+        @current_player.choose_move
     end
 
     def valid_input?(input)

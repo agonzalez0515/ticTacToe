@@ -4,6 +4,7 @@ class Player
     attr_reader :token
 
     def initialize(args)
+        @board = args[:board]
         @token = args[:token]
         @player_console = args[:console]
     end
@@ -16,7 +17,7 @@ end
 class HumanPlayer < Player
     TO_INDEX = 1
 
-    def choose_move(board, opponent)
+    def choose_move
         @player_console.get_player_input - TO_INDEX
     end
 end
@@ -25,14 +26,16 @@ end
 class ComputerPlayer < Player
     include Minimax
     
-    def choose_move(board, opponent)
-        call_minimax(board, opponent)
+    def choose_move
+        call_minimax
     end
     
     private
-    def call_minimax(board, opponent)
+    def call_minimax
+       opponent =  @token == "X" ? "O" : "X"
+
         args = {
-            board: board,
+            board: @board.board,
             marker: @token,
             opponent: opponent,
             empty_marker: ""
