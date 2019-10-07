@@ -1,14 +1,21 @@
 require 'player_console'
 
 describe PlayerConsole do
+    let(:output) { StringIO.new }
+    let(:console) { PlayerConsole.new(output: output) }
+
     it "prints a board" do
-        console = PlayerConsole.new
         board = [
             "","","",
             "","","",
             "","",""
         ]
-        expect{console.display_board(board)}.to output(" |  | \n--------\n |  | \n--------\n |  | \n").to_stdout
-        # expect(console.display_board(board)).to eq(" |  | \n--------\n |  | \n--------\n |  | \n")
+        console.print_board(board)
+        expect(output.string).to eq(" |  | \n--------\n |  | \n--------\n |  | \n")
+    end
+
+    it "prints message" do
+        console.print_instructions_message
+        expect(output.string).to eq("Please enter a number 1-9\n")
     end
 end

@@ -14,8 +14,8 @@ class Win
         diagonals = [[rows[0][0],rows[1][1],rows[2][2]],[rows.reverse[0][0],rows.reverse[1][1],rows.reverse[2][2]]]
         winner = [rows, columns, diagonals].map {|section| check_spots(section)}.include?(true)
         if winner
-            @player_console.display_board(board)
-            @player_console.winner_message
+            @player_console.print_board(board)
+            @player_console.print_winning_message
         end
         winner
     end
@@ -27,8 +27,8 @@ class Win
     def tie?(board)
         tie = !board.include?("")
         if tie
-            @player_console.display_board(board)
-            @player_console.tie_message
+            @player_console.print_board(board)
+            @player_console.print_tie_message
         end
         tie
     end
