@@ -8,13 +8,12 @@ require_relative 'board'
 class TicTacToe
     CURRENT = 0
     OPPONENT = 1
-    ONE_PLAYER = 1
 
     def initialize (args)
         @board = args[:board]
-        @players = []
+        @players = args[:players]
         @player_console = args[:console]
-        @current_player = @players[CURRENT]
+        @current_player = nil
         @win = args[:win]
     end
 
@@ -46,7 +45,7 @@ class TicTacToe
     def player_turn
         player_input = get_player_input
 
-        if  valid_input?(player_input)
+        if @board.valid_move?(player_input)
             @board.place_token(player_input, @current_player.token)
             switch_player
         else 
@@ -55,15 +54,11 @@ class TicTacToe
     end
     
     def get_player_input
-        @current_player.choose_move
+    @current_player.choose_move
     end
-
-    def valid_input?(input)
-        @board.board[input] == "" && [0,1,2,3,4,5,6,7,8].include?(input)
-    end
-        
+    
     def switch_player
-        @current_player = @players.rotate![0]
+    @current_player = @players.rotate![0]
     end
 end
 
