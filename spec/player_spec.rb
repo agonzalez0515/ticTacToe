@@ -28,35 +28,33 @@ end
 
 
 describe HumanPlayer do 
+    let(:console) { PlayerConsole.new }
+    let(:player)  { HumanPlayer.new({token: "X", console: console}) }
+
     it "gets input from player and converts it to index value" do
-        console = PlayerConsole.new
-        player = HumanPlayer.new({token: "X", console: console})
         allow(console).to receive(:get_player_input) { 2 }
         
         expect(player.choose_move).to eq(1)
     end
 
     it "prints instructions for human player" do
-        console = PlayerConsole.new
-        player = HumanPlayer.new({console: console})
-
         expect{player.print_instructions_message}.to output("Please enter an available number between 1-9.\n").to_stdout
     end
 end
 
 describe ComputerPlayer do
-    it "returns a move" do
-        console = PlayerConsole.new
-        board = Board.new
-        player = ComputerPlayer.new({token: "X", console: console, board: board})
+    let(:console) { PlayerConsole.new }
+    let(:board)   { Board.new }
+    let(:player)  { ComputerPlayer.new({token: "X", console: console, board: board}) }
 
-        expect(player.choose_move).to eq(0)
+    it "returns a move when the Minimax module is called" do
+        allow(MinimaxRB).to receive(:best_move) { 42 }
+
+        expect(player.choose_move).to eql(42)
+        expect(MinimaxRB).to have_received(:best_move)
     end
 
     it "prints a loading message about the computer" do
-        console = PlayerConsole.new
-        player = ComputerPlayer.new({token: "X", console: console})
-
         expect{player.print_instructions_message}.to output("Computer thinking...\n").to_stdout
     end
 end
