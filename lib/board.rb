@@ -5,7 +5,6 @@ class Board
         @board = Array.new(9, "")
     end
 
-
     def place_token(input, token)
         @board[input] = token
         @board

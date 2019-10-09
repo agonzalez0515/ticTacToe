@@ -7,17 +7,21 @@ class Win
         winner?(board) || tie?(board)
     end
 
+    def print_game_over_message(board, token)
+        @player_console.print_board(board)
+        if winner?(board)
+            @player_console.print_winning_message(token)
+        else
+            @player_console.print_tie_message
+        end
+    end
+
     private
     def winner?(board)
         rows = board.each_slice(3).to_a
         columns = rows.transpose
         diagonals = [[rows[0][0],rows[1][1],rows[2][2]],[rows.reverse[0][0],rows.reverse[1][1],rows.reverse[2][2]]]
         winner = [rows, columns, diagonals].map {|section| check_spots(section)}.include?(true)
-        if winner
-            @player_console.print_board(board)
-            @player_console.print_winning_message
-        end
-        winner
     end
 
     def check_spots(section)
@@ -26,11 +30,5 @@ class Win
 
     def tie?(board)
         tie = !board.include?("")
-        if tie
-            @player_console.print_board(board)
-            @player_console.print_tie_message
-        end
-        tie
     end
-
 end

@@ -5,7 +5,6 @@ class PlayerConsole
     end
 
     def print_board(board)
-
         @output.puts "#{board[0]} | #{board[1]} | #{board[2]}"
         @output.puts "--------"
         @output.puts "#{board[3]} | #{board[4]} | #{board[5]}"
@@ -22,20 +21,24 @@ class PlayerConsole
         @input.gets.chomp.to_i
     end
 
-    def print_instructions_message
-        @output.puts "Please enter a number 1-9"
+    def print_human_instructions_message
+        @output.puts "Please enter an available number between 1-9."
+    end
+
+    def print_computer_instructions_message
+        @output.puts "Computer thinking..."
     end
 
     def print_invalid_input_message
-        @output.puts "The spot is already taken. Please select another spot."
+        @output.puts "Invalid choice. Please pick again."
     end
 
     def get_player_input
         @input.gets.chomp.to_i
     end
 
-    def print_winning_message
-        @output.puts "Congrats, you win!"
+    def print_winning_message(token)
+        @output.puts "Congrats, #{token} player wins!"
     end
 
     def print_tie_message

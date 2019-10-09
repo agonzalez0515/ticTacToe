@@ -1,4 +1,5 @@
 require 'win'
+require 'player_console'
 
 describe Win do
     let(:console) { PlayerConsole.new }
@@ -75,5 +76,25 @@ describe Win do
             "X","O","X"
         ]
         expect(win.game_over?(board)).to eq(true)
+    end
+
+    it "prints a winning message when the game is over" do
+        board = [
+            "X","X","O",
+            "O","O","X",
+            "O","","X"
+        ]
+
+        expect{win.print_game_over_message(board, "X")}.to output("X | X | O\n--------\nO | O | X\n--------\nO |  | X\nCongrats, X player wins!\n").to_stdout
+    end
+
+    it "prints a tied message when game is over" do
+        board = [
+            "O","X","O",
+            "O","X","X",
+            "X","O","X"
+        ]
+
+        expect{win.print_game_over_message(board, "X")}.to output("O | X | O\n--------\nO | X | X\n--------\nX | O | X\nYou tied. Game over\n").to_stdout
     end
 end

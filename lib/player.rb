@@ -11,7 +11,11 @@ class Player
     end
 
     def choose_move
-        raise NotImplementedError
+        raise NotImplementedError, "Missing method"
+    end
+    
+    def print_instructions_message
+        raise NotImplementedError, "Missing method"
     end
 end
 
@@ -21,6 +25,10 @@ class HumanPlayer < Player
     def choose_move
         @player_console.get_player_input - TO_INDEX
     end
+
+    def print_instructions_message
+        @player_console.print_human_instructions_message
+    end
 end
 
 
@@ -28,6 +36,10 @@ class ComputerPlayer < Player
     
     def choose_move
         call_minimax
+    end
+
+    def print_instructions_message
+        @player_console.print_computer_instructions_message
     end
     
     private
