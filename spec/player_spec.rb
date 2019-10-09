@@ -3,7 +3,7 @@ require 'player_console'
 require 'board'
 
 describe Player do
-    it "creates a player with a value" do
+    it "creates a player with a token" do
         player = Player.new({token: 'Angie'})
         
         expect(player.token).to eq("Angie")
@@ -50,7 +50,7 @@ describe ComputerPlayer do
     it "returns a move when the Minimax module is called" do
         allow(MinimaxRB).to receive(:best_move) { 42 }
 
-        expect(player.choose_move).to eql(42)
+        expect(player.choose_move).to eq(42)
         expect(MinimaxRB).to have_received(:best_move)
     end
 
