@@ -38,8 +38,8 @@ class TicTacToe
     end
 
     def set_game_type(game_type)
-        human_player_1 = HumanPlayer.new({board: @board, console: @player_console, token: "X"})
-        human_player_2 = HumanPlayer.new({board: @board, console: @player_console, token: "O"})
+        human_player_1 = HumanPlayer.new({console: @player_console, token: "X"})
+        human_player_2 = HumanPlayer.new({console: @player_console, token: "O"})
         computer_player = ComputerPlayer.new({board: @board, console: @player_console, token: "O"})
 
         if game_type == ONE_PLAYER

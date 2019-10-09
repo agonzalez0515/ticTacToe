@@ -5,7 +5,6 @@ class Player
     attr_reader :token
 
     def initialize(args)
-        @board = args[:board]
         @token = args[:token]
         @player_console = args[:console]
     end
@@ -33,6 +32,10 @@ end
 
 
 class ComputerPlayer < Player
+    def initialize(args)
+        @board = args[:board]
+        super(args)
+    end
     
     def choose_move
         call_minimax
@@ -44,7 +47,7 @@ class ComputerPlayer < Player
     
     private
     def call_minimax
-       opponent =  @token == "X" ? "O" : "X"
+        opponent =  @token == "X" ? "O" : "X"
 
         args = {
             board: @board.board,
