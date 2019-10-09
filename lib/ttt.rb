@@ -19,33 +19,15 @@ class TicTacToe
     end
 
     def new_game
-        start_game
+        set_current_player
         play
         end_game
     end
 
     private
-    def start_game
-        @player_console.print_starting_message
-        set_game_type(@player_console.get_game_type_response)
-        set_current_player
-    end
-
     def end_game
         if @win.game_over?(@board.board)
             @win.print_game_over_message(@board.board, @players[OPPONENT].token)
-        end
-    end
-
-    def set_game_type(game_type)
-        human_player_1 = HumanPlayer.new({console: @player_console, token: "X"})
-        human_player_2 = HumanPlayer.new({console: @player_console, token: "O"})
-        computer_player = ComputerPlayer.new({board: @board, console: @player_console, token: "O"})
-
-        if game_type == ONE_PLAYER
-            @players = [human_player_1, computer_player]
-        else
-            @players = [human_player_1, human_player_2]
         end
     end
 
