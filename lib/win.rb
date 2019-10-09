@@ -21,7 +21,8 @@ class Win
         rows = board.each_slice(3).to_a
         columns = rows.transpose
         diagonals = [[rows[0][0],rows[1][1],rows[2][2]],[rows.reverse[0][0],rows.reverse[1][1],rows.reverse[2][2]]]
-        winner = [rows, columns, diagonals].map {|section| check_spots(section)}.include?(true)
+        
+        [rows, columns, diagonals].map {|section| check_spots(section)}.include?(true)
     end
 
     def check_spots(section)
@@ -29,6 +30,6 @@ class Win
     end
 
     def tie?(board)
-        tie = !board.include?("")
+        !board.include?("")
     end
 end

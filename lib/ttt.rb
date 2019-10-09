@@ -8,6 +8,7 @@ require_relative 'board'
 class TicTacToe
     CURRENT = 0
     OPPONENT = 1
+    ONE_PLAYER = 1
 
     def initialize (args)
         @board = args[:board]
@@ -41,7 +42,7 @@ class TicTacToe
         human_player_2 = HumanPlayer.new({board: @board, console: @player_console, token: "O"})
         computer_player = ComputerPlayer.new({board: @board, console: @player_console, token: "O"})
 
-        if game_type == 1
+        if game_type == ONE_PLAYER
             @players = [human_player_1, computer_player]
         else
             @players = [human_player_1, human_player_2]
