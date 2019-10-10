@@ -5,7 +5,7 @@ require "player"
 
 describe GameConfiguation do
     let(:console) {PlayerConsole.new}
-    let(:board) {Board.new}
+    let(:board) {Board.new({console: console})}
 
     context "#configure_players" do
         it "creates a set of human players" do

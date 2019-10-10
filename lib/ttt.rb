@@ -1,5 +1,3 @@
-require "pp"
-
 require_relative 'player_console'
 require_relative 'player'
 require_relative 'win'
@@ -24,16 +22,10 @@ class TicTacToe
     end
 
     private
-    def end_game
-        if @win.game_over?(@board.board)
-            @win.print_game_over_message(@board.board, @players[OPPONENT].token)
-        end
-    end
-
     def set_current_player
         @current_player = @players[CURRENT]
     end
-
+    
     def play
         until @win.game_over?(@board.board) do
             @player_console.print_board(@board.board)
@@ -42,14 +34,15 @@ class TicTacToe
         end
     end
 
-    def player_turn
-        player_input = get_player_input
+    def end_game
+        if @win.game_over?(@board.board)
+            @win.print_game_over_message(@board.board, @players[OPPONENT].token)
+        end
+    end
 
-        if @board.valid_move?(player_input)
-            @board.place_token(player_input, @current_player.token)
+    def player_turn
+        if @board.place_token(get_player_input, @current_player.token)
             switch_player
-        else 
-            @player_console.print_invalid_input_message
         end
     end
     

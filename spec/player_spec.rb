@@ -44,7 +44,7 @@ end
 
 describe ComputerPlayer do
     let(:console) { PlayerConsole.new }
-    let(:board)   { Board.new }
+    let(:board)   { Board.new({console: console}) }
     let(:player)  { ComputerPlayer.new({token: "X", console: console, board: board}) }
 
     it "returns a move when the Minimax module is called" do
