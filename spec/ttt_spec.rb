@@ -11,8 +11,6 @@ describe TicTacToe do
         it "creates a new game" do
             expect(game).to be_an_instance_of(TicTacToe)
         end
-
-        it ""
     end
     
 end

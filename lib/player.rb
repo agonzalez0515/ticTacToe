@@ -33,12 +33,18 @@ end
 
 class ComputerPlayer < Player
     def initialize(args)
-        @board = args[:board]
         super(args)
+        @board = args[:board]
     end
     
     def choose_move
-        call_minimax
+        args = {
+            board: @board.board,
+            marker: @token,
+            opponent: get_opponent_marker,
+            empty_marker: ""
+        }
+        MinimaxRB.best_move(args)
     end
 
     def print_instructions_message
@@ -46,15 +52,7 @@ class ComputerPlayer < Player
     end
     
     private
-    def call_minimax
+    def get_opponent_marker
         opponent =  @token == "X" ? "O" : "X"
-
-        args = {
-            board: @board.board,
-            marker: @token,
-            opponent: opponent,
-            empty_marker: ""
-        }
-        MinimaxRB.best_move(args)
     end
 end
