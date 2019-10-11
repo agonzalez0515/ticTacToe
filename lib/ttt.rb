@@ -1,88 +1,57 @@
-require "pp"
+require_relative 'player_console'
+require_relative 'player'
+require_relative 'win'
+require_relative 'board'
 
 class TicTacToe
-    attr_accessor :board
+    CURRENT = 0
+    OPPONENT = 1
 
-    def initialize(input: $stdin)
-        @board = Array.new(9, "")
-        @player1 = Player.new("X")
-        @player2 = Player.new("O")
-        @current_player = @player1
-        @input = input
+    def initialize (args)
+        @board = args[:board]
+        @players = args[:players]
+        @player_console = args[:console]
+        @current_player = nil
+        @win = args[:win]
     end
 
-    def display_board
-        puts "#{@board[0]} | #{@board[1]} | #{@board[2]}"
-        puts "--------"
-        puts "#{@board[3]} | #{@board[4]} | #{@board[5]}"
-        puts "--------"
-        puts "#{@board[6]} | #{@board[7]} | #{@board[8]}"
+    def new_game
+        set_current_player
+        play
+        end_game
     end
 
+    private
+    def set_current_player
+        @current_player = @players[CURRENT]
+    end
+    
+    def play
+        until @win.game_over?(@board.board) do
+            @player_console.print_board(@board.board)
+            @current_player.print_instructions_message
+            player_turn
+        end
+    end
 
-    def start_game
-        puts "Starting new Tic Tac Toe game"
-        until game_over?(@board) do
-            play
+    def end_game
+        if @win.game_over?(@board.board)
+            @win.print_game_over_message(@board.board, @players[OPPONENT].token)
+        end
+    end
+
+    def player_turn
+        if @board.place_token(get_player_input, @current_player.token)
             switch_player
         end
     end
-
-    def switch_player
-        if @current_player == @player1
-            @current_player = @player2
-        else
-            @current_player = @player1
-        end
-    end
-
-    def play
-        display_board
-        puts "Please enter a number 1-9"
-        place_token
-    end
-
     
-    def place_token
-        input = player_input
-        if @board[input] == ""
-            @board[input] = @current_player.token
-        else
-            puts "The spot is already taken. Please select another spot."
-        end
+    def get_player_input
+    @current_player.choose_move
     end
-
-    def player_input
-        position_chosen = @input.gets.chomp.to_i
-        position_chosen = position_chosen - 1
-    end
-
-    def game_over?(board)
-        rows = board.each_slice(3).to_a
-        columns = rows.transpose
-        diagonals = [[rows[0][0],rows[1][1],rows[2][2]],[rows.reverse[0][0],rows.reverse[1][1],rows.reverse[2][2]]]
-  
-
-        winner = [rows, columns, diagonals].map {|section| check_winner(section)}
-        winner.include?(true)
-    end
-
-    def check_winner(win_groups)
-        win_groups.map {|group| return true if group.uniq.length == 1 && (group[0] == "X" || group[0] == "O") }.include?(true)
-    end
-
-end
-
-
-class Player
-    attr_accessor :token
-
-    def initialize(token)
-        @token = token
+    
+    def switch_player
+    @current_player = @players.rotate![0]
     end
 end
 
-
-
-game = TicTacToe.new
-game.start_game
